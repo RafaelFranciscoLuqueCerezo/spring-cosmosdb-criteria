@@ -8,9 +8,9 @@ Remember that CosmosDb does not have developed this feature, as other db has, su
 
 ## Operators
 Bellow two images that represent how some operator work:
-![alt text](docs/CriteriaOperatorFirstPart.PNG)
+![alt text](/docs/CriteriaOperatorFirstPart.PNG)
 
-![alt text](docs/CriteriaOperatorSecondPart.PNG)
+![alt text](/docs/CriteriaOperatorSecondPart.PNG)
 
 In order to check all operator available , you must check [**CriteriaOperator**](src/main/java/reactor/cosmosdb/criteria/domain/CriteriaOperator.java)
 
