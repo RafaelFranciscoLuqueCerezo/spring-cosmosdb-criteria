@@ -2,7 +2,7 @@
 
 ## Description
 This library allows you to create criteria queries against CosmosDb , also all logic neccessary to launch this queries against the db are already developed, so it will help you to avoid think about how to create and launch those special queries against the db.
-Remember that CosmosDb does not have developed this feature, as other db has, such as MongoDb for example.
+Remember that CosmosDb does not have developed this feature for NoSQL API.
 
 ---
 
