@@ -1,5 +1,8 @@
 package reactor.cosmosdb.criteria.domain;
 
+/**
+ * Enum used to order the results dynamically retrieved from database.
+ */
 public enum AppFilterOrder {
     ASC("ASC"),
     DESC("DESC");

@@ -8,6 +8,10 @@ import com.azure.cosmos.models.SqlQuerySpec;
 import com.azure.cosmos.util.CosmosPagedFlux;
 
 
+/**
+ *
+ * @param <T> : Response object that you are going to retrieve directly from database
+ */
 public interface ReactorCosmosDbQueryLauncher<T> {
     String getDatabaseName();
     CosmosAsyncClient getClientAsync();

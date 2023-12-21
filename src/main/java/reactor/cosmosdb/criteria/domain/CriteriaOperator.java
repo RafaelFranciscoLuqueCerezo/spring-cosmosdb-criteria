@@ -2,6 +2,9 @@ package reactor.cosmosdb.criteria.domain;
 
 import java.util.Arrays;
 
+/**
+ * Enum of all operators available to launch queries.
+ */
 public enum CriteriaOperator {
     EQUALS("EQUALS","="),
     EQUALS_STRICT("EQUALS_STRICT","="),

@@ -2,14 +2,129 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>santander.cosmosdb</groupId>
+    <groupId>cosmosdb.nosql</groupId>
     <artifactId>criteria</artifactId>
-    <version>0.0.3</version>
     <packaging>jar</packaging>
+    <version>0.0.3-SNAPSHOT</version>
+    <name>Criteria for CosmosDb NoSQL-API</name>
+    <description>Full criteria feature for CosmosDb NoSQL-API</description>
+    <url>https://github.com/RafaelFranciscoLuqueCerezo/spring-cosmosdb-criteria.git</url>
 
-    <name>criteria</name>
-    <description>fill</description>
+
+    <!-- The license is mandatory -->
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <!-- The list of maintainers -->
+    <developers>
+        <developer>
+            <id>RafaelFLuqueCerezo</id>
+            <name>Rafael Francisco Luque Cerezo</name>
+            <email>rluquecerezo@gmail.com</email>
+        </developer>
+    </developers>
+
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.4.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+    <scm>
+        <connection>scm:git:git@github.com:RafaelFranciscoLuqueCerezo/spring-cosmosdb-criteria.git</connection>
+        <developerConnection>scm:git:git@github.com:RafaelFranciscoLuqueCerezo/spring-cosmosdb-criteria.git</developerConnection>
+        <url>https://github.com/RafaelFranciscoLuqueCerezo/spring-cosmosdb-criteria.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>oss.sonatype</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+
     <properties>
         <openapi.version>1.4.3</openapi.version>
         <spring.cosmos.version>3.27.0</spring.cosmos.version>
