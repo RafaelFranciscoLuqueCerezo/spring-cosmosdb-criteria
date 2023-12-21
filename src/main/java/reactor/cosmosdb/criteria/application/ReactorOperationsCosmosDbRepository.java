@@ -15,8 +15,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-//E: entity (ej: DataContractProjection)
-//C: container (ej: DataContractProjectionContainer)
+
+/**
+ *
+ * @param <E> : Entity (ej: Testing)
+ * @param <C> : Container (ej: TestingContainer)
+ */
 public class ReactorOperationsCosmosDbRepository<E,C> {
 
     private ReactorCosmosDbQueryLauncher<C> queryLauncher;
@@ -34,6 +38,12 @@ public class ReactorOperationsCosmosDbRepository<E,C> {
         this.queryCountLauncher = queryCountLauncher;
     }
 
+    /**
+     *
+     * @param criteria : criteria to launch again target container
+     * @param containerName : name of the target container
+     * @return
+     */
     public Mono<TotalCountResponse> findBySelectCountCriteria(PaginatedCriteria criteria,String containerName){
         if(!criteria.isCountQuery()){
             throw new AppCriteriaBuilderException("the criteria provided does not have countQuery enabled, please enabled it with selectCount() method");
@@ -42,6 +52,15 @@ public class ReactorOperationsCosmosDbRepository<E,C> {
         return dbResponse.collectList().map(a-> !a.isEmpty() ? a.get(0) : new TotalCountResponse(0));
     }
 
+    /**
+     *
+     * @param criteria : criteria to launch again target container
+     * @param desiredPage : desired page that you want to ask for
+     * @param pageSize : size of the result you want to retrieve
+     * @param containerCosmosDbInfo : contains necessary attributes (name of the container and class type ) to launch the query against the target container
+     * @param toEntity : entity where mapping the results obtained
+     * @return
+     */
     public Mono<ProjectionPaginated<E>> findByCriteriaPaginated(PaginatedCriteria criteria, int desiredPage, int pageSize, ContainerCosmosDbInfo<C> containerCosmosDbInfo, Function<C,E> toEntity) {
         CosmosPagedFlux<C> pagedIterable = queryLauncher
                 .launch(criteria.getQuerySentence(), containerCosmosDbInfo.getName(), containerCosmosDbInfo.getContainerClass());

@@ -3,6 +3,10 @@ package reactor.cosmosdb.criteria.domain;
 
 import java.util.List;
 
+/**
+ *
+ * @param <T> : DataResponse you expect to receive
+ */
 public class ProjectionPaginated<T> {
     private int total;
     private int totalResult;
@@ -20,7 +24,7 @@ public class ProjectionPaginated<T> {
     }
 
     public static <T> ProjectionPaginatedBuilder<T> builder() {
-        return new ProjectionPaginatedBuilder<T>();
+        return new ProjectionPaginatedBuilder<>();
     }
 
     public int getTotal() {
@@ -73,7 +77,7 @@ public class ProjectionPaginated<T> {
         }
 
         public ProjectionPaginated<T> build() {
-            return new ProjectionPaginated<T>(total, totalResult, hasNextPage, data);
+            return new ProjectionPaginated<>(total, totalResult, hasNextPage, data);
         }
 
         public String toString() {
