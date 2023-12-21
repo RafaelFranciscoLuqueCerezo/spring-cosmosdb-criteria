@@ -4,6 +4,8 @@ import com.azure.cosmos.models.FeedResponse;
 import com.azure.cosmos.util.CosmosPagedFlux;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.cosmosdb.criteria.domain.TotalCountResponse;
+import reactor.cosmosdb.criteria.domain.exception.AppCriteriaBuilderException;
 import reactor.cosmosdb.criteria.infraestructure.ReactorCosmosDbQueryLauncher;
 import reactor.cosmosdb.criteria.domain.ContainerCosmosDbInfo;
 import reactor.cosmosdb.criteria.domain.PaginatedCriteria;
@@ -19,11 +21,25 @@ public class ReactorOperationsCosmosDbRepository<E,C> {
 
     private ReactorCosmosDbQueryLauncher<C> queryLauncher;
 
+    private ReactorCosmosDbQueryLauncher<TotalCountResponse> queryCountLauncher;
+
     public ReactorOperationsCosmosDbRepository() {
     }
 
-    public ReactorOperationsCosmosDbRepository(ReactorCosmosDbQueryLauncher<C> queryLauncher) {
+    public ReactorOperationsCosmosDbRepository(
+            ReactorCosmosDbQueryLauncher<C> queryLauncher,
+            ReactorCosmosDbQueryLauncher<TotalCountResponse> queryCountLauncher
+    ) {
         this.queryLauncher = queryLauncher;
+        this.queryCountLauncher = queryCountLauncher;
+    }
+
+    public Mono<TotalCountResponse> findBySelectCountCriteria(PaginatedCriteria criteria,String containerName){
+        if(!criteria.isCountQuery()){
+            throw new AppCriteriaBuilderException("the criteria provided does not have countQuery enabled, please enabled it with selectCount() method");
+        }
+        CosmosPagedFlux<TotalCountResponse> dbResponse = queryCountLauncher.launch(criteria.getQuerySentence(),containerName,TotalCountResponse.class);
+        return dbResponse.collectList().map(a-> !a.isEmpty() ? a.get(0) : new TotalCountResponse(0));
     }
 
     public Mono<ProjectionPaginated<E>> findByCriteriaPaginated(PaginatedCriteria criteria, int desiredPage, int pageSize, ContainerCosmosDbInfo<C> containerCosmosDbInfo, Function<C,E> toEntity) {

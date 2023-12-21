@@ -8,21 +8,19 @@ import com.azure.cosmos.models.SqlQuerySpec;
 import com.azure.cosmos.util.CosmosPagedFlux;
 
 
-public abstract class ReactorCosmosDbQueryLauncher<T> {
-    public String databaseName;
-    public CosmosAsyncClient clientAsync;
+public interface ReactorCosmosDbQueryLauncher<T> {
+    String getDatabaseName();
+    CosmosAsyncClient getClientAsync();
 
-    public String getDatabaseName(){
-        return this.databaseName;
-    }
-    public CosmosAsyncClient getClientAsync(){
-        return this.clientAsync;
-    }
-
-    public CosmosPagedFlux<T> launch(String querySentence, String containerName, Class<T> targetClass) {
+    default CosmosPagedFlux<T> launch(String querySentence, String containerName, Class<T> targetClass) {
         SqlQuerySpec querySpec = new SqlQuerySpec(querySentence);
         CosmosAsyncDatabase database = getClientAsync().getDatabase(getDatabaseName());
         CosmosAsyncContainer container = database.getContainer(containerName);
         return container.queryItems(querySpec, new CosmosQueryRequestOptions(), targetClass);
+    }
+
+    default CosmosAsyncContainer getContainerInstance(String containerName){
+        CosmosAsyncDatabase database = getClientAsync().getDatabase(getDatabaseName());
+        return database.getContainer(containerName);
     }
 }
