@@ -106,6 +106,12 @@
     </profiles>
 
 
+    <scm>
+        <connection>scm:git:git@github.com:RafaelFranciscoLuqueCerezo/spring-cosmosdb-criteria.git</connection>
+        <developerConnection>scm:git:git@github.com:RafaelFranciscoLuqueCerezo/spring-cosmosdb-criteria.git</developerConnection>
+        <url>https://github.com/RafaelFranciscoLuqueCerezo/spring-cosmosdb-criteria.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <distributionManagement>
         <snapshotRepository>
