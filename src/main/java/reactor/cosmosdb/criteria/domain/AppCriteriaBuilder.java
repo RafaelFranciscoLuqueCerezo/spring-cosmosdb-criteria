@@ -385,6 +385,17 @@ public abstract class AppCriteriaBuilder<T> {
             );
         }
 
+        if(CriteriaOperator.EQUALS_STRICT_IGNORING_CAMEL_CASE.getId().equals(criteriaType.getId())){
+            return String.format("%s ARRAY_LENGTH(%s) = %d AND UPPER(%s) IN %s %s ",
+                    firstPart,
+                    getParentTargetColumnForLengthChecking(targetColumn),
+                    value.size(),
+                    getTargetColumn(againstArray,targetColumn),
+                    this.mapListUPPERToSqlArray(value),
+                    closeSentence
+            );
+        }
+
         if (CriteriaOperator.EQUALS_STRICT.getId().equals(criteriaType.getId())) {
             return String.format("%s ARRAY_LENGTH(%s) = %d AND %s IN %s %s ",
                     firstPart,
@@ -473,6 +484,17 @@ public abstract class AppCriteriaBuilder<T> {
     private String mapListToSqlArray(List<String> array){
         StringBuilder stb = new StringBuilder();
         array.forEach(x->stb.append(String.format("'%s',",x)));
+        stb.deleteCharAt(stb.length() -1);
+        return String.format("(%s)",stb);
+    }
+
+    /**
+     * @param array : array of values ignoring camel case that you want to compare with
+     * @return an array from correctly cosmosdb sql interpretation
+     */
+    private String mapListUPPERToSqlArray(List<String> array){
+        StringBuilder stb = new StringBuilder();
+        array.forEach(x->stb.append(String.format("UPPER('%s'),",x)));
         stb.deleteCharAt(stb.length() -1);
         return String.format("(%s)",stb);
     }

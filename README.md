@@ -323,8 +323,7 @@ public class TestingCosmosDbRepository implements TestingRepository {
     @Override
     public Mono<List<Testing>> findByCriteria(TestingCriteria criteria) {
         CosmosPagedFlux<SubscriptionContainer> dbResponse = queryLauncher.launch(criteria.getQuerySentence(), "containerName", TestingContainer.class);
-        return dbResponse.collectList().map(x -> x
-                .stream().map(TestingContainer::toEntity).collect(Collectors.toList()));
+        return dbResponse.map(TestingContainer::toEntity).collectList();
     }
 
     @Override
